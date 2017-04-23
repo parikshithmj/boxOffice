@@ -16,6 +16,7 @@ import java.util.Map;
  * Created by parmj on 2/15/17.
  */
 public class FacebookFetcher {
+<<<<<<< HEAD
 
     //Input : Facebook Post Id
     public void getReactions(String id) {
@@ -51,6 +52,9 @@ public class FacebookFetcher {
                         reactionsMap.put(type,1);
                     }
 
+=======
+
+>>>>>>> 84f896d7d28cfe663b9992884e01e1b732734136
                 }
                 if(resultsPaging.has("next"))
                     url = (String)resultsPaging.get("next");
