@@ -69,14 +69,13 @@ public class FateClassGen {
     }
     private static String getFate(float imdbScore){
         String fate = null;
-            if(imdbScore >= 8)
-                fate = "Superhit";
-            else if(imdbScore >= 7)
-                fate = "Hit";
-            else if(imdbScore >= 6)
-                fate = "Average";
-            else
-                fate = "Flop";
+
+        if(imdbScore >= 7)
+            fate = "Hit";
+        else if(imdbScore >= 6)
+            fate = "Average";
+        else
+            fate = "Flop";
 
         return fate;
     }

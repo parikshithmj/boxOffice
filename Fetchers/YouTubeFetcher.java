@@ -17,7 +17,7 @@ public class YouTubeFetcher {
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType, "{}");
         Request request = new Request.Builder()
-                .url("https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+videoId+"&key=xxxx")
+                .url("https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+videoId+"&key=AIzaSyC5go9pxjoGXCw2wi82nxgv22yGFG1ZkQU")
                 .get()
                 .build();
 
@@ -29,7 +29,7 @@ public class YouTubeFetcher {
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType, "{}");
         Request request = new Request.Builder()
-                .url("https://www.googleapis.com/youtube/v3/search?part=id&q="+searchQuery+"%20trailer&key=xxxx")
+                .url("https://www.googleapis.com/youtube/v3/search?part=id&q="+searchQuery+"%20trailer&key=AIzaSyC5go9pxjoGXCw2wi82nxgv22yGFG1ZkQU")
                 .get()
                 .build();
 

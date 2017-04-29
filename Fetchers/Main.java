@@ -1,6 +1,8 @@
 package Fetchers;
 
 import okhttp3.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -9,10 +11,12 @@ public class Main {
     public static void main(String[] args) {
 
 
-    //    Fetchers.YouTubeFetcher yf = invokeYouTubeFetcher();
 
-      //  FacebookFetcher fb = new FacebookFetcher();
-      //  fb.getReactions("1789404601333511");
+
+        Fetchers.YouTubeFetcher yf = invokeYouTubeFetcher();
+
+    //    FacebookFetcher fb = new FacebookFetcher();
+    //    fb.getReactions("1789404601333511");
         OkHttpClient client = new OkHttpClient();
 
         MediaType mediaType = MediaType.parse("application/json");
@@ -22,12 +26,20 @@ public class Main {
                 .get()
                 .build();
         try{
+            MongoCRUD mongoCRUD = new MongoCRUD();
             Response response = client.newCall(request).execute();
             String json = response.body().string();
-           // System.out.println(json);
-            MongoCRUD mongoCRUD = new MongoCRUD();
 
-            mongoCRUD.insert(json, "boxoffice", "upcomingMovies");
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray jsonArray = jsonObject.getJSONArray("results");
+            for(int i =0; i<jsonArray.length();i++){
+                JSONObject tmpJsonObject = jsonArray.getJSONObject(i);
+                String movieTitle = (String)tmpJsonObject.get("title");
+                String trailerId = yf.getVideoId(movieTitle);
+                tmpJsonObject.append("trailerLink","https://www.youtube.com/watch?v="+trailerId);
+                mongoCRUD.insert(tmpJsonObject.toString(), "boxoffice", "upcomingMovies","results");
+            }
+
         }catch(Exception e){
             e.printStackTrace();
         }

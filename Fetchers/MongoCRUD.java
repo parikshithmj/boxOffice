@@ -15,7 +15,7 @@ import java.util.List;
 public class MongoCRUD {
     MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://boxoffice:boxoffice@ds155130.mlab.com:55130/boxoffice"));
 
-    public void insert(String json,String dbName, String collectionName){
+    public void insert(String json,String dbName, String collectionName, String jsonDataName){
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(json);
@@ -25,18 +25,25 @@ public class MongoCRUD {
 
             DBCollection collection = db.getCollection(collectionName);
 
-            JSONArray results = (JSONArray)jsonObject.get("results");
-            for(int i=0; i<results.length(); i++){
-                list.add(results.getJSONObject(i).toString());
+            if(jsonObject.has(jsonDataName)){
+                JSONArray results = (JSONArray)jsonObject.get(jsonDataName);
+                for(int i=0; i<results.length(); i++){
+                    list.add(results.getJSONObject(i).toString());
+                }
+
+                System.out.println(list.size());
+
+                for(int i=0; i<list.size(); i++){
+                    DBObject dbObject = (DBObject) JSON.parse(list.get(i));
+                    collection.insert(dbObject);
+                }
             }
-
-            System.out.println(list.size());
-
-            for(int i=0; i<list.size(); i++){
-                DBObject dbObject = (DBObject) JSON.parse(list.get(i));
+            else {
+                DBObject dbObject = (DBObject) JSON.parse(jsonObject.toString());
                 collection.insert(dbObject);
+
             }
-            } catch (JSONException e) {
+            }catch(JSONException e) {
                 e.printStackTrace();
             }
         }
